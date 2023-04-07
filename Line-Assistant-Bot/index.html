@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"vicwen0418.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3HKLP81BHP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3HKLP81BHP');
+</script>
+  <meta name="description" content="內嵌GPT模型、爬蟲天氣資料等，使人們的生活更加便利。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Line Assistant Bot：LINE多功能機器人">
+<meta property="og:url" content="https://vicwen0418.github.io/Line-Assistant-Bot/">
+<meta property="og:site_name" content="VicWebs">
+<meta property="og:description" content="內嵌GPT模型、爬蟲天氣資料等，使人們的生活更加便利。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.imgur.com/pLep6st.png">
+<meta property="og:image" content="https://i.imgur.com/RnggHdJ.jpg">
+<meta property="og:image" content="https://i.imgur.com/Dca8SyM.png">
+<meta property="og:image" content="https://i.imgur.com/m1vw2aq.png">
+<meta property="og:image" content="https://i.imgur.com/X0jmpzQ.png">
+<meta property="og:image" content="https://i.imgur.com/DRZp1gx.png">
+<meta property="og:image" content="https://i.imgur.com/mOXywVL.png">
+<meta property="og:image" content="https://i.imgur.com/0l6XtJG.jpg">
+<meta property="article:published_time" content="2023-04-05T14:06:21.000Z">
+<meta property="article:modified_time" content="2023-04-07T15:16:22.196Z">
+<meta property="article:author" content="Vic Wen">
+<meta property="article:tag" content="side project">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/pLep6st.png">
+
+<link rel="canonical" href="https://vicwen0418.github.io/Line-Assistant-Bot/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>Line Assistant Bot：LINE多功能機器人 | VicWebs</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3HKLP81BHP"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-3HKLP81BHP');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">VicWebs</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類<span class="badge">1</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔<span class="badge">1</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://vicwen0418.github.io/Line-Assistant-Bot/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Vic Wen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VicWebs">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Line Assistant Bot：LINE多功能機器人
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2023-04-05 22:06:21" itemprop="dateCreated datePublished" datetime="2023-04-05T22:06:21+08:00">2023-04-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2023-04-07 23:16:22" itemprop="dateModified" datetime="2023-04-07T23:16:22+08:00">2023-04-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/LINE-BOT/" itemprop="url" rel="index"><span itemprop="name">LINE-BOT</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/Line-Assistant-Bot/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="Line-Assistant-Bot/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <div class="post-description">內嵌GPT模型、爬蟲天氣資料等，使人們的生活更加便利。</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Introduction-前言"><a href="#Introduction-前言" class="headerlink" title="Introduction - 前言"></a>Introduction - 前言</h2><p>為了使我們的生活更加方便，我決定開發一個多功能機器人，類似於個人助理，能夠在某些時候節省我們許多時間去翻閱、處理資訊。</p>
+<h2 id="Process-過程"><a href="#Process-過程" class="headerlink" title="Process 過程"></a>Process 過程</h2><p>常常在緊急的時候需要查資料，但是卻因為繁雜的手續(搜尋、翻閱、尋找自己需要的資料)而拖延了許多時間，因此我希望透過自己的雙手實作一個類似於個人助理的機器人，在某些緊要關頭能夠幫助到我們，平時也可以透過這個機器人整理排序資料，獲得自己所需。</p>
+<p>於是我便於2023&#x2F;3&#x2F;30開始了我的第一個小專題，我對這個主題有幾大原則：</p>
+<ul>
+<li><strong>具擴充性</strong> - 能夠擴充功能，給予無限可能</li>
+<li><strong>具公開性</strong> - 能夠使好友們也使用這個功能</li>
+<li><strong>方便迅速</strong> - 本次專題的首要目標<br>經過評估後，我決定在LINE上面進行架設，製作一個能滿足我需求的LINE-BOT，俗話說的好：「<strong>人類會進步源自於需求。</strong>」</li>
+</ul>
+<p>本次專題架構圖：<br><img src="https://i.imgur.com/pLep6st.png"><br>圖片來自於：<a target="_blank" rel="noopener" href="https://www.learncodewithmike.com/2020/06/python-line-bot.html">LEARN CODE WITH MIKE</a></p>
+<p>本次專題前期部署皆依賴著MIKE的網站完成，非常感謝他的無私奉獻他所擁有的知識。</p>
+<p>本次專題機器人邏輯判斷所使用的語言為Python，透過LineBotApi進行傳送資料、錯誤判斷，伺服器方面則是使用Django框架進行建置。</p>
+<p>若對架設有興趣，可以參考MIKE的<a target="_blank" rel="noopener" href="https://www.learncodewithmike.com/2020/06/python-line-bot.html">教學網站。</a></p>
+<p>由於是首次製作專案（雖然連大型都稱不上），對於專案、程式撰寫架構也很不熟，Python更是這幾天才在學…，因此過程中充滿了艱辛，日誌上看的出來，每天都在優化架構，不斷思考才能讓自己的程式碼看起來簡潔。從把程式碼全部寫在一個檔案，到後面學習了寫成多檔案、OOP的概念，將專題整個打散，化零為整，使其具<strong>擴充性、可讀性</strong>。</p>
+<p>這中間也是下了很多功夫…，尤其是 Class 四大方法，看了許多遍才能實際運用在自己的作品上，一路上也是使自己不斷成長，看著自己的機器人越來越厲害，挺有成就感的XD(好像怪怪的…)。</p>
+<h2 id="Function-功能"><a href="#Function-功能" class="headerlink" title="Function - 功能"></a>Function - 功能</h2><p>程式碼已開源在 <a target="_blank" rel="noopener" href="https://github.com/vicwen0418/Line-Assistant-Bot">GitHub</a> 上，我是小白，不要電我嗚嗚QQ</p>
+<p>截至於目前（2023&#x2F;04&#x2F;05），已具備四種功能，並預留兩個位置未來實現。</p>
+<p>四種功能分別為：</p>
+<ul>
+<li>美食推薦</li>
+<li>景點推薦</li>
+<li>天氣預覽</li>
+<li>AI對話</li>
+</ul>
+<img src="https://i.imgur.com/RnggHdJ.jpg" width="50%" height="50%">
+
+<p>透過圖文選單（rich-menu）一目瞭然的功能列表，只需用手指輕觸即可獲取資訊，少掉了打開瀏覽器、輸入文字、尋找可用資料的冗長過程。</p>
+<p>功能所獲取的資料皆是使用爬蟲(BeautifulSoup)實現。</p>
+<p>選擇縣市的按鈕面板則是使用line-models API裡的CarouselTemplate實現。</p>
+<p>AI架構則是使用GPT-3.5實現</p>
+<p>未來會持續更新，使其完整。</p>
+<h2 id="Instruction-成果"><a href="#Instruction-成果" class="headerlink" title="Instruction - 成果"></a>Instruction - 成果</h2><h4 id="2023-x2F-3-x2F-30-初始框架"><a href="#2023-x2F-3-x2F-30-初始框架" class="headerlink" title="2023&#x2F;3&#x2F;30 - 初始框架"></a>2023&#x2F;3&#x2F;30 - 初始框架</h4><p>雖然非常簡陋，但是萬事起頭難，有了開頭，後面都不算難了！此時的功能只有重複你所說的話而已。<br><img src="https://i.imgur.com/Dca8SyM.png" width="50%" height="50%"></p>
+<h4 id="2023-x2F-3-x2F-31-新增各縣市美食推薦。"><a href="#2023-x2F-3-x2F-31-新增各縣市美食推薦。" class="headerlink" title="2023&#x2F;3&#x2F;31 - 新增各縣市美食推薦。"></a>2023&#x2F;3&#x2F;31 - 新增各縣市美食推薦。</h4><img src="https://i.imgur.com/m1vw2aq.png" width="50%" height="50%">
+
+
+<h4 id="2023-x2F-04-x2F-01-新增各縣市景點推薦。"><a href="#2023-x2F-04-x2F-01-新增各縣市景點推薦。" class="headerlink" title="2023&#x2F;04&#x2F;01 - 新增各縣市景點推薦。"></a>2023&#x2F;04&#x2F;01 - 新增各縣市景點推薦。</h4><img src="https://i.imgur.com/X0jmpzQ.png" width="50%" height="50%">
+
+
+<h4 id="2023-x2F-04-x2F-02-新增各縣市氣象預報。"><a href="#2023-x2F-04-x2F-02-新增各縣市氣象預報。" class="headerlink" title="2023&#x2F;04&#x2F;02 - 新增各縣市氣象預報。"></a>2023&#x2F;04&#x2F;02 - 新增各縣市氣象預報。</h4><img src="https://i.imgur.com/DRZp1gx.png" width="50%" height="50%">
+
+
+<h4 id="2023-x2F-04-x2F-03-新增縣市選擇面板，增加方便性。"><a href="#2023-x2F-04-x2F-03-新增縣市選擇面板，增加方便性。" class="headerlink" title="2023&#x2F;04&#x2F;03 - 新增縣市選擇面板，增加方便性。"></a>2023&#x2F;04&#x2F;03 - 新增縣市選擇面板，增加方便性。</h4><img src="https://i.imgur.com/mOXywVL.png" width="50%" height="50%">
+
+
+<h4 id="2023-x2F-04-x2F-05-新增圖文選單、AI對話。"><a href="#2023-x2F-04-x2F-05-新增圖文選單、AI對話。" class="headerlink" title="2023&#x2F;04&#x2F;05 - 新增圖文選單、AI對話。"></a>2023&#x2F;04&#x2F;05 - 新增圖文選單、AI對話。</h4><img src="https://i.imgur.com/0l6XtJG.jpg" width="50%" height="50%">
+
+
+
+
+<h2 id="epilogue-結語"><a href="#epilogue-結語" class="headerlink" title="epilogue - 結語"></a>epilogue - 結語</h2><p>由於本專題具擴充性，因此仍會持續更新，如同我的學習之路一樣，永不中斷。<br>若你對於我的作品有甚麼想法，可以傳訊給我，謝謝。</p>
+<h2 id="Platform-amp-Else-平台和雜項"><a href="#Platform-amp-Else-平台和雜項" class="headerlink" title="Platform &amp; Else - 平台和雜項"></a>Platform &amp; Else - 平台和雜項</h2><ul>
+<li>撰寫平台 - Visual Studio Code</li>
+<li>撰寫語言 - Python</li>
+<li>伺服器框架 - django</li>
+<li>AI框架 - GPT-3.5</li>
+<li>架設平台 - LINE</li>
+<li>API名稱 - linebotapi, line.models, requests, beautifulSoup, openai</li>
+</ul>
+<h2 id="Log-更新日誌"><a href="#Log-更新日誌" class="headerlink" title="Log - 更新日誌"></a>Log - 更新日誌</h2><table>
+<thead>
+<tr>
+<th>日期</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2023&#x2F;03&#x2F;29</td>
+<td>初步架設</td>
+</tr>
+<tr>
+<td>2023&#x2F;03&#x2F;31</td>
+<td>新增功能(美食餐廳、旅遊景點) - 待優化</td>
+</tr>
+<tr>
+<td>2023&#x2F;04&#x2F;02</td>
+<td>新增功能(縣市天氣報告)、優化架構</td>
+</tr>
+<tr>
+<td>2023&#x2F;04&#x2F;03</td>
+<td>更改表達方式(改為CarouselTemplate選擇縣市)、優化架構</td>
+</tr>
+<tr>
+<td>2023&#x2F;04&#x2F;04</td>
+<td>新增縣市、修改bug、優化架構</td>
+</tr>
+<tr>
+<td>2023&#x2F;04&#x2F;05</td>
+<td>新增圖文選單(rich-menu)、新增OpenAI功能、隔離使用者、優化架構</td>
+</tr>
+</tbody></table>
+<h2 id="Reference-參考資料"><a href="#Reference-參考資料" class="headerlink" title="Reference - 參考資料"></a>Reference - 參考資料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://developers.line.biz/zh-hant/">LINE Developers</a></li>
+<li><a target="_blank" rel="noopener" href="https://manager.line.biz/">LINE Official Account Manager</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.learncodewithmike.com/2020/06/python-line-bot.html">[Python+LINE Bot教學]6步驟快速上手LINE Bot機器人</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.learncodewithmike.com/2020/07/line-bot-buttons-template-message.html">[Python+LINE Bot教學]提升使用者體驗的按鈕樣板訊息(Buttons template message)實用技巧</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.learncodewithmike.com/2020/01/python-encapsulation.html">[Python物件導向]Python封裝(Encapsulation)實用教學</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.maxlist.xyz/2019/12/12/python-oop/">[Python教學] 物件導向-Class類的封裝&#x2F;繼承&#x2F;多型</a></li>
+<li><a target="_blank" rel="noopener" href="https://weilihmen.medium.com/%E9%97%9C%E6%96%BCpython%E7%9A%84%E9%A1%9E%E5%88%A5-class-%E5%9F%BA%E6%9C%AC%E7%AF%87-5468812c58f2">關於Python的類別(Class)…基本篇</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.learncodewithmike.com/2020/01/python-method.html">[Python物件導向]解析Python物件導向設計的3種類型方法(Instance,Class,Static Method)</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/citycoddee/python%E9%80%B2%E9%9A%8E%E6%8A%80%E5%B7%A7-2-static-class-abstract-methods%E4%B9%8B%E5%AF%A6%E7%8F%BE-1e3b3998bccf">Python進階技巧 (2) — Static&#x2F;Class&#x2F;Abstract Methods之實現</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.maxlist.xyz/2019/12/08/python-class-static-abstract-method/">[Python教學] Class &#x2F; Static &#x2F;Abstract Method 初探</a></li>
+<li><a target="_blank" rel="noopener" href="https://steam.oxxostudio.tw/category/python/example/openai.html">使用 OpenAI ChatGPT</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/side-project/" rel="tag"># side project</a>
+              <a href="/tags/python/" rel="tag"># python</a>
+          </div>
+
+        
+
+
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction-%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">Introduction - 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Process-%E9%81%8E%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">Process 過程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Function-%E5%8A%9F%E8%83%BD"><span class="nav-number">3.</span> <span class="nav-text">Function - 功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Instruction-%E6%88%90%E6%9E%9C"><span class="nav-number">4.</span> <span class="nav-text">Instruction - 成果</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2023-x2F-3-x2F-30-%E5%88%9D%E5%A7%8B%E6%A1%86%E6%9E%B6"><span class="nav-number">4.0.1.</span> <span class="nav-text">2023&#x2F;3&#x2F;30 - 初始框架</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2023-x2F-3-x2F-31-%E6%96%B0%E5%A2%9E%E5%90%84%E7%B8%A3%E5%B8%82%E7%BE%8E%E9%A3%9F%E6%8E%A8%E8%96%A6%E3%80%82"><span class="nav-number">4.0.2.</span> <span class="nav-text">2023&#x2F;3&#x2F;31 - 新增各縣市美食推薦。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2023-x2F-04-x2F-01-%E6%96%B0%E5%A2%9E%E5%90%84%E7%B8%A3%E5%B8%82%E6%99%AF%E9%BB%9E%E6%8E%A8%E8%96%A6%E3%80%82"><span class="nav-number">4.0.3.</span> <span class="nav-text">2023&#x2F;04&#x2F;01 - 新增各縣市景點推薦。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2023-x2F-04-x2F-02-%E6%96%B0%E5%A2%9E%E5%90%84%E7%B8%A3%E5%B8%82%E6%B0%A3%E8%B1%A1%E9%A0%90%E5%A0%B1%E3%80%82"><span class="nav-number">4.0.4.</span> <span class="nav-text">2023&#x2F;04&#x2F;02 - 新增各縣市氣象預報。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2023-x2F-04-x2F-03-%E6%96%B0%E5%A2%9E%E7%B8%A3%E5%B8%82%E9%81%B8%E6%93%87%E9%9D%A2%E6%9D%BF%EF%BC%8C%E5%A2%9E%E5%8A%A0%E6%96%B9%E4%BE%BF%E6%80%A7%E3%80%82"><span class="nav-number">4.0.5.</span> <span class="nav-text">2023&#x2F;04&#x2F;03 - 新增縣市選擇面板，增加方便性。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2023-x2F-04-x2F-05-%E6%96%B0%E5%A2%9E%E5%9C%96%E6%96%87%E9%81%B8%E5%96%AE%E3%80%81AI%E5%B0%8D%E8%A9%B1%E3%80%82"><span class="nav-number">4.0.6.</span> <span class="nav-text">2023&#x2F;04&#x2F;05 - 新增圖文選單、AI對話。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#epilogue-%E7%B5%90%E8%AA%9E"><span class="nav-number">5.</span> <span class="nav-text">epilogue - 結語</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Platform-amp-Else-%E5%B9%B3%E5%8F%B0%E5%92%8C%E9%9B%9C%E9%A0%85"><span class="nav-number">6.</span> <span class="nav-text">Platform &amp; Else - 平台和雜項</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Log-%E6%9B%B4%E6%96%B0%E6%97%A5%E8%AA%8C"><span class="nav-number">7.</span> <span class="nav-text">Log - 更新日誌</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference-%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">8.</span> <span class="nav-text">Reference - 參考資料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Vic Wen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/vicwen0418" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;vicwen0418" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/viiccwen" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;viiccwen" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vic Wen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://https://vicwebs.disqus.com/.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://vicwen0418.github.io/Line-Assistant-Bot/";
+    this.page.identifier = "Line-Assistant-Bot/";
+    this.page.title = "Line Assistant Bot：LINE多功能機器人";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://https://vicwebs.disqus.com/.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>
