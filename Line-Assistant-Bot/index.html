@@ -37,7 +37,7 @@
 <meta property="og:description" content="在LINE平台上製作一款小型互動官方帳號，內嵌GPT模型、爬蟲天氣資料等，使人們的生活更加便利。">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://i.imgur.com/pLep6st.png">
-<meta property="og:image" content="https://i.imgur.com/RnggHdJ.jpg">
+<meta property="og:image" content="https://i.imgur.com/yo1PMEq.jpg">
 <meta property="og:image" content="https://i.imgur.com/Dca8SyM.png">
 <meta property="og:image" content="https://i.imgur.com/m1vw2aq.png">
 <meta property="og:image" content="https://i.imgur.com/X0jmpzQ.png">
@@ -45,7 +45,7 @@
 <meta property="og:image" content="https://i.imgur.com/mOXywVL.png">
 <meta property="og:image" content="https://i.imgur.com/0l6XtJG.jpg">
 <meta property="article:published_time" content="2023-04-05T14:06:21.000Z">
-<meta property="article:modified_time" content="2023-04-07T16:41:39.096Z">
+<meta property="article:modified_time" content="2023-04-08T13:43:55.869Z">
 <meta property="article:author" content="Vic Wen">
 <meta property="article:tag" content="python">
 <meta property="article:tag" content="GPT-3.5">
@@ -164,7 +164,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔<span class="badge">1</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔<span class="badge">2</span></a>
 
   </li>
   </ul>
@@ -221,7 +221,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2023-04-08 00:41:39" itemprop="dateModified" datetime="2023-04-08T00:41:39+08:00">2023-04-08</time>
+                <time title="修改時間：2023-04-08 21:43:55" itemprop="dateModified" datetime="2023-04-08T21:43:55+08:00">2023-04-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -266,7 +266,7 @@
         <h2 id="introduction---前言">Introduction - 前言</h2>
 <p>為了使我們的生活更加方便，我決定開發一個多功能機器人，類似於個人助理，能夠在某些時候節省我們許多時間去翻閱、處理資訊。</p>
 <h2 id="process-過程">Process 過程</h2>
-<p>常常在緊急的時候需要查資料，但是卻因為繁雜的手續(搜尋、翻閱、尋找自己需要的資料)而拖延了許多時間，因此我希望透過自己的雙手實作一個類似於個人助理的機器人，在某些緊要關頭能夠幫助到我們，平時也可以透過這個機器人整理排序資料，獲得自己所需。</p>
+<p>常常在緊急的時候需要查資料，但是卻因為繁雜的手續（搜尋、翻閱、尋找自己需要的資料）而拖延了許多時間，因此我希望透過自己的雙手實作一個類似於個人助理的機器人，在某些緊要關頭能夠幫助到我們，平時也可以透過這個機器人整理排序資料，獲得自己所需。</p>
 <p>於是我便於2023/3/30開始了我的第一個小專題，我對這個主題有幾大原則：</p>
 <ul>
 <li><strong>具擴充性</strong> - 能夠擴充功能，給予無限可能</li>
@@ -286,19 +286,21 @@ target="_blank" rel="noopener" href="https://www.learncodewithmike.com/2020/06/p
 <p>這中間也是下了很多功夫...，尤其是 Class
 四大方法，看了許多遍才能實際運用在自己的作品上，一路上也是使自己不斷成長，看著自己的機器人越來越厲害，挺有成就感的XD(好像怪怪的...)。</p>
 <h2 id="function---功能">Function - 功能</h2>
-<p>程式碼已開源在 <a
+<p>程式碼已開源至 <a
 target="_blank" rel="noopener" href="https://github.com/vicwen0418/Line-Assistant-Bot">GitHub</a>
-上，我是小白，不要電我嗚嗚QQ</p>
+，我是小白，不要電我嗚嗚QQ</p>
 <p>截至於目前（2023/04/05），已具備四種功能，並預留兩個位置未來實現。</p>
-<p>四種功能分別為： <br> 1. 美食推薦 <br> 2. 景點推薦 <br> 3. 天氣預覽
-<br> 4. AI對話 <br></p>
-<p><img src="https://i.imgur.com/RnggHdJ.jpg" width="50%" height="50%"></p>
-<p>透過圖文選單（rich-menu）一目瞭然的功能列表，只需用手指輕觸即可獲取資訊，少掉了打開瀏覽器、輸入文字、尋找可用資料的冗長過程。</p>
-<p>功能所獲取的資料皆是使用爬蟲(BeautifulSoup)實現。</p>
-<p>選擇縣市的按鈕面板則是使用line-models
+<p>四種功能分別為： <br> 1. 美食推薦 - 利用爬蟲抓取<a
+target="_blank" rel="noopener" href="https://ifoodie.tw/">愛食記網站</a><br> 2. 景點推薦 -
+利用爬蟲抓取<a target="_blank" rel="noopener" href="https://okgo.tw/">玩全網站</a><br> 3. 天氣預覽 -
+利用爬蟲抓取<a
+target="_blank" rel="noopener" href="https://weather.com/zh-TW/weather/today/l/TWXX0021:1:TW">The
+Weather Channel</a><br> 4. AI對話 - 嵌入GPT-3.5 API<br></p>
+<p><img src="https://i.imgur.com/yo1PMEq.jpg" width="50%" height="50%"></p>
+<p>原先本來是想製作類似於萬能機器人的模式（自建關鍵字字典），但真的太麻煩了，程式也會太臃腫，因此到了第三四天決定放棄原有的想法，轉而以簡單易操作的方式製作（本來就該這樣，那時候想太美），因此在選擇功能上決定使用LINE的圖文選單（rich-menu），透過一目瞭然的功能列表，只需用手指輕觸即可獲取資訊，少掉了打開瀏覽器、輸入文字、尋找可用資料的冗長過程。</p>
+<p>再來是選擇縣市部分，也是透過按鈕輕輕一按，所見即所得的方式實作。我是使用line-models
 API裡的CarouselTemplate實現。</p>
-<p>AI架構則是使用GPT-3.5實現</p>
-<p>未來會持續更新，使其完整。</p>
+<p>但這作品有個致命的缺點就是，我沒有雲端伺服器，只能使用本地端作為伺服器（ngrok），但我又是使用筆電做為我的主力，時常需要帶著跑，因此會關機、睡眠，很多時候也就無法查詢（畢竟需要伺服器端接收GET、傳送POST指令），或許未來會搞個伺服器也說不定）？</p>
 <h2 id="instruction---成果">Instruction - 成果</h2>
 <h4 id="初始框架">2023/3/30 - 初始框架</h4>
 <p>雖然非常簡陋，但是萬事起頭難，有了開頭，後面都不算難了！此時的功能只有重複你所說的話而已。
@@ -322,7 +324,8 @@ API裡的CarouselTemplate實現。</p>
 <ul>
 <li>撰寫平台 - Visual Studio Code</li>
 <li>撰寫語言 - Python</li>
-<li>伺服器框架 - django</li>
+<li>專案架構 - django</li>
+<li>伺服器框架 - ngrok</li>
 <li>AI框架 - GPT-3.5</li>
 <li>架設平台 - LINE</li>
 <li>API名稱 - linebotapi, line.models, requests, beautifulSoup,
@@ -418,6 +421,13 @@ OpenAI ChatGPT</a></li>
 
 
         
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/Line-Weather-Notify-Bot/" rel="next" title="基於LINE-NOTIFY實現每日天氣推播：無須手動查詢天氣！">
+      基於LINE-NOTIFY實現每日天氣推播：無須手動查詢天氣！ <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
       </footer>
     
   </article>
@@ -498,7 +508,7 @@ OpenAI ChatGPT</a></li>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
